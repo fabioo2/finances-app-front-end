@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import LoginForm from './components/LoginForm';
+import LoggedIn from './components/LoggedIn';
+import JobsGrid from './components/JobsGrid';
+
 import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
 import { EuiPage, EuiText, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+
+import jobService from './services/jobs';
 import loginService from './services/login';
 
 const App = () => {
@@ -10,6 +15,15 @@ const App = () => {
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState(null);
+    const [jobs, setJobs] = useState([]);
+    const [newJob, setNewJob] = useState({});
+
+    useEffect(() => {
+        jobService.getAll().then((initialJobs) => {
+            setJobs(initialJobs);
+            console.log(initialJobs);
+        });
+    }, []);
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem(
@@ -19,7 +33,7 @@ const App = () => {
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
             setUser(user);
-            //ENTER job service token set here later
+            jobService.setToken(user.token);
         }
     }, []);
 
@@ -58,44 +72,41 @@ const App = () => {
 
     const loginForm = () => {
         return (
-            <EuiPage style={{ height: '100vh' }}>
-                <EuiFlexGroup
-                    justifyContent="spaceAround"
-                    alignItems="center"
-                >
-                    <EuiFlexItem grow={false}>
-                        <EuiText>
-                            <LoginForm
-                                message={message}
-                                username={username}
-                                password={password}
-                                handleUsernameChange={({ target }) =>
-                                    setUsername(target.value)
-                                }
-                                handlePasswordChange={({ target }) => {
-                                    setPassword(target.value);
-                                }}
-                                handleSubmit={handleLogin}
-                                setMessage={setMessage}
-                            />
-                        </EuiText>
-                    </EuiFlexItem>
-                </EuiFlexGroup>
-            </EuiPage>
+            <LoginForm
+                message={message}
+                username={username}
+                password={password}
+                handleUsernameChange={({ target }) =>
+                    setUsername(target.value)
+                }
+                handlePasswordChange={({ target }) => {
+                    setPassword(target.value);
+                }}
+                handleSubmit={handleLogin}
+                setMessage={setMessage}
+            />
+        );
+    };
+
+    const jobsPage = () => {
+        return (
+            <div>
+                <LoggedIn user={user} handleLogout={handleLogout} />
+                <JobsGrid jobs={jobs} />
+            </div>
         );
     };
 
     return (
-        <div>
-            {user === null ? (
-                loginForm()
-            ) : (
-                <div>
-                    <p>{user.name} is logged in</p>
-                    <button onClick={handleLogout}>log out</button>
-                </div>
-            )}
-        </div>
+        <EuiPage className="page-background">
+            <EuiFlexGroup justifyContent="center" alignItems="center">
+                <EuiFlexItem grow={false}>
+                    <EuiText>
+                        {user === null ? loginForm() : jobsPage()}
+                    </EuiText>
+                </EuiFlexItem>
+            </EuiFlexGroup>
+        </EuiPage>
     );
 };
 

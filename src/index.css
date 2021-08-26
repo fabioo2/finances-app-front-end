@@ -1,0 +1,22 @@
+.page-background {
+    background-image: url(./assets/img/background.jpg) !important;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 100vh;
+}
+
+.page-flex-group {
+    width: 50% !important;
+}
+
+.logged-button {
+    opacity: 100% !important;
+}
+
+.logged-card {
+    background: rgba(255,255,255,0.8) !important;
+    margin-top: 10px;
+}
+

@@ -3,6 +3,7 @@ import CreateUserForm from '../components/CreateUserForm';
 import Notification from '../components/Notification';
 
 import {
+    EuiPanel,
     EuiForm,
     EuiFieldText,
     EuiButton,
@@ -35,7 +36,7 @@ const LoginForm = ({
     const showWhenVisible = { display: visible ? '' : 'none' };
 
     return (
-        <EuiCard>
+        <EuiPanel style={{ background: 'rgba(255,255,255,0.8)' }}>
             <Notification message={message}></Notification>
 
             <CreateUserForm
@@ -78,7 +79,7 @@ const LoginForm = ({
             <EuiButton color={'success'} onClick={toggleVisibility}>
                 {buttonText}
             </EuiButton>
-        </EuiCard>
+        </EuiPanel>
     );
 };
 
