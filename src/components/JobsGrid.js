@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { EuiBasicTable, EuiLink, EuiHealth } from '@elastic/eui';
 
 const JobsGrid = ({ jobs }) => {
+    const [pageIndex, setPageIndex] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+
+    const onTableChange = ({ page = {} }) => {
+        const { index: pageIndex, size: pageSize } = page;
+
+        setPageIndex(pageIndex);
+        setPageSize(pageSize);
+    };
+
+    const totalItemCount = jobs.length;
+
+    const startIndex = pageIndex * pageSize;
+
+    const pageOfItems = jobs.slice(
+        startIndex,
+        Math.min(startIndex + pageSize, jobs.length)
+    );
+
     const renderStatus = (paid) => {
         const color = paid ? 'success' : 'danger';
         const label = paid ? 'Paid' : 'Not Paid';
@@ -36,32 +55,20 @@ const JobsGrid = ({ jobs }) => {
 
     const items = jobs;
 
-    const getRowProps = (item) => {
-        const { id } = item;
-        return {
-            'data-test-subj': `row-${id}`,
-            className: 'customRowClass',
-            onClick: () => {},
-        };
-    };
-
-    const getCellProps = (item, column) => {
-        const { id } = item;
-        const { field } = column;
-        return {
-            className: 'customCellClass',
-            'data-test-subj': `cell-${id}-${field}`,
-            textOnly: true,
-        };
+    const pagination = {
+        pageIndex,
+        pageSize,
+        totalItemCount,
+        pageSizeOptions: [3, 5, jobs.length],
     };
 
     return (
         <EuiBasicTable
-            items={items}
+            items={pageOfItems}
             rowHeader="firstName"
             columns={columns}
-            rowProps={getRowProps}
-            cellProps={getCellProps}
+            pagination={pagination}
+            onChange={onTableChange}
         />
     );
 };

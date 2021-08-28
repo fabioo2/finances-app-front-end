@@ -5,7 +5,7 @@ import LoggedIn from './components/LoggedIn';
 import JobsGrid from './components/JobsGrid';
 
 import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
-import { EuiPage, EuiText, EuiFlexGroup, EuiFlexItem } from '@elastic/eui';
+import { EuiPage } from '@elastic/eui';
 
 import jobService from './services/jobs';
 import loginService from './services/login';
@@ -99,13 +99,7 @@ const App = () => {
 
     return (
         <EuiPage className="page-background">
-            <EuiFlexGroup justifyContent="center" alignItems="center">
-                <EuiFlexItem grow={false}>
-                    <EuiText>
-                        {user === null ? loginForm() : jobsPage()}
-                    </EuiText>
-                </EuiFlexItem>
-            </EuiFlexGroup>
+            {user === null ? loginForm() : jobsPage()}
         </EuiPage>
     );
 };

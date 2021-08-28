@@ -10,6 +10,9 @@ import {
     EuiFormRow,
     EuiFieldPassword,
     EuiCard,
+    EuiText,
+    EuiFlexGroup,
+    EuiFlexItem,
 } from '@elastic/eui';
 
 const LoginForm = ({
@@ -36,50 +39,62 @@ const LoginForm = ({
     const showWhenVisible = { display: visible ? '' : 'none' };
 
     return (
-        <EuiPanel style={{ background: 'rgba(255,255,255,0.8)' }}>
-            <Notification message={message}></Notification>
+        <EuiFlexGroup justifyContent="center" alignItems="center">
+            <EuiFlexItem grow={false}>
+                <EuiText>
+                    {' '}
+                    <EuiPanel
+                        style={{ background: 'rgba(255,255,255,0.8)' }}
+                    >
+                        <Notification message={message}></Notification>
 
-            <CreateUserForm
-                showWhenVisible={showWhenVisible}
-                setMessage={setMessage}
-            />
+                        <CreateUserForm
+                            showWhenVisible={showWhenVisible}
+                            setMessage={setMessage}
+                        />
 
-            <EuiForm
-                component="form"
-                style={hideWhenVisible}
-                onSubmit={handleSubmit}
-            >
-                <h2>Login</h2>
+                        <EuiForm
+                            component="form"
+                            style={hideWhenVisible}
+                            onSubmit={handleSubmit}
+                        >
+                            <h2>Login</h2>
 
-                <EuiFormRow label="username">
-                    <EuiFieldText
-                        name="username"
-                        value={username}
-                        onChange={handleUsernameChange}
-                    />
-                </EuiFormRow>
+                            <EuiFormRow label="username">
+                                <EuiFieldText
+                                    name="username"
+                                    value={username}
+                                    onChange={handleUsernameChange}
+                                />
+                            </EuiFormRow>
 
-                <EuiFormRow label="password">
-                    <EuiFieldPassword
-                        type={dual ? 'dual' : undefined}
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                </EuiFormRow>
+                            <EuiFormRow label="password">
+                                <EuiFieldPassword
+                                    type={dual ? 'dual' : undefined}
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                />
+                            </EuiFormRow>
 
-                <EuiButton
-                    color={'primary'}
-                    type="submit"
-                    style={{ marginBottom: '5px' }}
-                >
-                    Login
-                </EuiButton>
-            </EuiForm>
+                            <EuiButton
+                                color={'primary'}
+                                type="submit"
+                                style={{ marginBottom: '5px' }}
+                            >
+                                Login
+                            </EuiButton>
+                        </EuiForm>
 
-            <EuiButton color={'success'} onClick={toggleVisibility}>
-                {buttonText}
-            </EuiButton>
-        </EuiPanel>
+                        <EuiButton
+                            color={'success'}
+                            onClick={toggleVisibility}
+                        >
+                            {buttonText}
+                        </EuiButton>
+                    </EuiPanel>
+                </EuiText>
+            </EuiFlexItem>
+        </EuiFlexGroup>
     );
 };
 
