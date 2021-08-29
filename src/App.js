@@ -5,7 +5,12 @@ import LoggedIn from './components/LoggedIn';
 import JobsGrid from './components/JobsGrid';
 
 import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
-import { EuiPage } from '@elastic/eui';
+import {
+    EuiPageTemplate,
+    EuiCard,
+    EuiFlexItem,
+    EuiFlexGroup,
+} from '@elastic/eui';
 
 import jobService from './services/jobs';
 import loginService from './services/login';
@@ -72,19 +77,21 @@ const App = () => {
 
     const loginForm = () => {
         return (
-            <LoginForm
-                message={message}
-                username={username}
-                password={password}
-                handleUsernameChange={({ target }) =>
-                    setUsername(target.value)
-                }
-                handlePasswordChange={({ target }) => {
-                    setPassword(target.value);
-                }}
-                handleSubmit={handleLogin}
-                setMessage={setMessage}
-            />
+            <EuiCard className="component-background">
+                <LoginForm
+                    message={message}
+                    username={username}
+                    password={password}
+                    handleUsernameChange={({ target }) =>
+                        setUsername(target.value)
+                    }
+                    handlePasswordChange={({ target }) => {
+                        setPassword(target.value);
+                    }}
+                    handleSubmit={handleLogin}
+                    setMessage={setMessage}
+                />
+            </EuiCard>
         );
     };
 
@@ -98,9 +105,16 @@ const App = () => {
     };
 
     return (
-        <EuiPage className="page-background">
+        <EuiPageTemplate
+            template="centeredBody"
+            className="page-background"
+            pageContentProps={{
+                paddingSize: 'none',
+                color: 'transparent',
+            }}
+        >
             {user === null ? loginForm() : jobsPage()}
-        </EuiPage>
+        </EuiPageTemplate>
     );
 };
 

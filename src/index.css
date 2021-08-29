@@ -4,9 +4,28 @@
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
-    height: 100vh;
+    height: inherit;
+    min-height: 100vh;
 }
 
+.table-panel {
+    margin-top: 20px;
+    display: flex;
+}
+
+.table-background {
+    margin-top: 20px;
+    background: #ecebec !important;
+}
+
+.table-background table, .table-background table tr {
+    background: #ecebec !important;
+}
+
+.component-background {
+    background-color: #ffffffcc !important;
+
+}
 .page-flex-group {
     width: 50% !important;
 }

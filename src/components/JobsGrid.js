@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Comparators } from '@elastic/eui/es/services/sort';
-import { EuiBasicTable, EuiLink, EuiHealth } from '@elastic/eui';
+import {
+    EuiBasicTable,
+    EuiHealth,
+    EuiPanel,
+    EuiFlexItem,
+    EuiFlexGroup,
+} from '@elastic/eui';
 
 const JobsGrid = ({ jobs }) => {
     const [pageIndex, setPageIndex] = useState(0);
@@ -124,14 +130,17 @@ const JobsGrid = ({ jobs }) => {
     };
 
     return (
-        <EuiBasicTable
-            items={pageOfItems}
-            rowHeader="firstName"
-            columns={columns}
-            pagination={pagination}
-            sorting={sorting}
-            onChange={onTableChange}
-        />
+        <EuiPanel className="component-background table-panel">
+            <EuiBasicTable
+                className="table-background"
+                items={pageOfItems}
+                rowHeader="firstName"
+                columns={columns}
+                pagination={pagination}
+                sorting={sorting}
+                onChange={onTableChange}
+            />
+        </EuiPanel>
     );
 };
 
