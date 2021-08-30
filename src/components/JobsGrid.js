@@ -93,6 +93,7 @@ const JobsGrid = ({ jobs }) => {
             name: 'Client Name',
             truncateText: true,
             sortable: true,
+            footer: <em>Page totals:</em>,
         },
         {
             field: 'date',
@@ -104,12 +105,22 @@ const JobsGrid = ({ jobs }) => {
             field: 'amount',
             name: 'Payment Due',
             dataType: 'number',
+            align: 'right',
+            footer: ({ items }) => (
+                <span>{items.reduce((a, b) => a + b.amount, 0)} </span>
+            ),
         },
         {
             field: 'paid',
             name: 'Payment Status',
+            align: 'right',
             dataType: 'boolean',
             render: (paid) => renderStatus(paid),
+            footer: ({ items }) => (
+                <span>
+                    {items.filter((i) => !i.paid).length} unpaid invoices
+                </span>
+            ),
         },
     ];
 

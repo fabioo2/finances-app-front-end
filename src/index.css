@@ -5,7 +5,7 @@
     background-size: cover;
     background-attachment: fixed;
     height: inherit;
-    min-height: 100vh;
+    min-height: 100vh !important;
 }
 
 .table-panel {
