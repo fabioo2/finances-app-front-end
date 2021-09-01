@@ -1,26 +1,14 @@
 import React, { useState } from 'react';
 import { Comparators } from '@elastic/eui/es/services/sort';
-import {
-    EuiBasicTable,
-    EuiHealth,
-    EuiPanel,
-    EuiFlexItem,
-    EuiFlexGroup,
-} from '@elastic/eui';
+import { EuiBasicTable, EuiHealth, EuiPanel } from '@elastic/eui';
 
 const JobsGrid = ({ jobs }) => {
-    const [pageIndex, setPageIndex] = useState(0);
-    const [pageSize, setPageSize] = useState(5);
     const [sortField, setSortField] = useState('client');
     const [sortDirection, setSortDirection] = useState('asc');
 
-    const onTableChange = ({ page = {}, sort = {} }) => {
-        const { index: pageIndex, size: pageSize } = page;
-
+    const onTableChange = ({ sort = {} }) => {
         const { field: sortField, direction: sortDirection } = sort;
 
-        setPageIndex(pageIndex);
-        setPageSize(pageSize);
         setSortField(sortField);
         setSortDirection(sortDirection);
     };
@@ -67,25 +55,22 @@ const JobsGrid = ({ jobs }) => {
 
     const pageOfItems = findJobs(
         jobs,
-        pageIndex,
-        pageSize,
+        null,
+        null,
         sortField,
         sortDirection
     ).pageOfItems;
 
-    const totalItemCount = findJobs(
-        jobs,
-        pageIndex,
-        pageSize,
-        sortField,
-        sortDirection
-    ).totalItemCount;
-
     const renderStatus = (paid) => {
-        const color = paid ? 'success' : 'danger';
-        const label = paid ? 'Paid' : 'Not Paid';
+        const color = paid ? 'danger' : 'success';
+        const label = paid ? 'Issues' : 'Closed';
         return <EuiHealth color={color}>{label}</EuiHealth>;
     };
+
+    const formatter = new Intl.NumberFormat('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+    });
 
     const columns = [
         {
@@ -107,12 +92,19 @@ const JobsGrid = ({ jobs }) => {
             dataType: 'number',
             align: 'right',
             footer: ({ items }) => (
-                <span>{items.reduce((a, b) => a + b.amount, 0)} </span>
+                <span>
+                    {items
+                        .reduce((a, b) => a + b.amount, 0)
+                        .toLocaleString('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                        })}{' '}
+                </span>
             ),
         },
         {
-            field: 'paid',
-            name: 'Payment Status',
+            field: 'Status',
+            name: 'Job Status',
             align: 'right',
             dataType: 'boolean',
             render: (paid) => renderStatus(paid),
@@ -123,13 +115,6 @@ const JobsGrid = ({ jobs }) => {
             ),
         },
     ];
-
-    const pagination = {
-        pageIndex,
-        pageSize,
-        totalItemCount,
-        pageSizeOptions: [3, 5, jobs.length],
-    };
 
     const sorting = {
         sort: {
@@ -147,7 +132,6 @@ const JobsGrid = ({ jobs }) => {
                 items={pageOfItems}
                 rowHeader="firstName"
                 columns={columns}
-                pagination={pagination}
                 sorting={sorting}
                 onChange={onTableChange}
             />

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import LoginForm from './components/LoginForm';
 import LoggedIn from './components/LoggedIn';
 import JobsGrid from './components/JobsGrid';
+import CreateJob from './components/CreateJob';
 
 import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
 import {
@@ -10,10 +11,13 @@ import {
     EuiCard,
     EuiFlexItem,
     EuiFlexGroup,
+    EuiPanel,
 } from '@elastic/eui';
 
 import jobService from './services/jobs';
 import loginService from './services/login';
+
+import moment from 'moment';
 
 const App = () => {
     const [username, setUsername] = useState('');
@@ -21,7 +25,13 @@ const App = () => {
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState(null);
     const [jobs, setJobs] = useState([]);
-    const [newJob, setNewJob] = useState({});
+    const [newJob, setNewJob] = useState({
+        client: '',
+        amount: '',
+        paid: true,
+        date: moment(),
+    });
+    const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
     useEffect(() => {
         jobService.getAll().then((initialJobs) => {
@@ -50,13 +60,12 @@ const App = () => {
                 username,
                 password,
             });
-            console.log(user);
             window.localStorage.setItem(
                 'loggedFinanceAppUser',
                 JSON.stringify(user)
             );
 
-            //ENTER job service token set here later
+            jobService.setToken(user.token);
             setUser(user);
             setUsername('');
             setPassword('');
@@ -73,6 +82,22 @@ const App = () => {
 
         window.localStorage.removeItem('loggedFinanceAppUser');
         setUser(null);
+    };
+
+    const addJob = (event) => {
+        event.preventDefault();
+
+        jobService.create(newJob).then((returnedJob) => {
+            setJobs(jobs.concat(returnedJob));
+            setNewJob({
+                client: '',
+                amount: '',
+                paid: true,
+                date: moment(),
+            });
+        });
+
+        setIsFlyoutVisible(false);
     };
 
     const loginForm = () => {
@@ -98,7 +123,16 @@ const App = () => {
     const jobsPage = () => {
         return (
             <div>
-                <LoggedIn user={user} handleLogout={handleLogout} />
+                <EuiPanel className="logged-card">
+                    <LoggedIn user={user} handleLogout={handleLogout} />
+                    <CreateJob
+                        isFlyoutVisible={isFlyoutVisible}
+                        setIsFlyoutVisible={setIsFlyoutVisible}
+                        newJob={newJob}
+                        setNewJob={setNewJob}
+                        addJob={addJob}
+                    />
+                </EuiPanel>
                 <JobsGrid jobs={jobs} />
             </div>
         );

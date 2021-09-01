@@ -32,6 +32,7 @@
 
 .logged-button {
     opacity: 100% !important;
+    margin: 5px;
 }
 
 .logged-card {
