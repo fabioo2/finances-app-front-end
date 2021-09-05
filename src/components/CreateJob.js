@@ -12,7 +12,6 @@ import {
     EuiFieldNumber,
     EuiDatePicker,
     EuiSwitch,
-    EuiSpacer,
 } from '@elastic/eui';
 
 const CreateJob = ({

@@ -9,10 +9,7 @@ import {
     EuiButton,
     EuiFormRow,
     EuiFieldPassword,
-    EuiCard,
     EuiText,
-    EuiFlexGroup,
-    EuiFlexItem,
 } from '@elastic/eui';
 
 const LoginForm = ({
@@ -45,6 +42,7 @@ const LoginForm = ({
             <CreateUserForm
                 showWhenVisible={showWhenVisible}
                 setMessage={setMessage}
+                setButtonText={setButtonText}
             />
 
             <EuiForm

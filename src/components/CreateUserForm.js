@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import userService from '../services/user';
 
 import {
+    EuiText,
     EuiForm,
     EuiFieldText,
     EuiButton,
@@ -10,7 +11,11 @@ import {
     EuiFieldPassword,
 } from '@elastic/eui';
 
-const CreateUserForm = ({ setMessage, showWhenVisible }) => {
+const CreateUserForm = ({
+    setMessage,
+    showWhenVisible,
+    setButtonText,
+}) => {
     const [newUsername, setNewUsername] = useState('');
     const [newName, setNewName] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -36,6 +41,7 @@ const CreateUserForm = ({ setMessage, showWhenVisible }) => {
                 setTimeout(() => {
                     setMessage(null);
                 }, 5000);
+                setButtonText('Log In');
             } else {
                 setMessage('Password must match');
                 setTimeout(() => {
@@ -53,8 +59,9 @@ const CreateUserForm = ({ setMessage, showWhenVisible }) => {
     return (
         <div style={showWhenVisible}>
             <EuiForm component="form" onSubmit={handleCreateUser}>
-                <h2>Create New User</h2>
-
+                <EuiText>
+                    <h2>Create New User</h2>
+                </EuiText>
                 <EuiFormRow label="full name">
                     <EuiFieldText
                         name="username"

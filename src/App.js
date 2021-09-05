@@ -33,12 +33,7 @@ const App = () => {
     });
     const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
 
-    useEffect(() => {
-        jobService.getAll().then((initialJobs) => {
-            setJobs(initialJobs);
-            console.log(initialJobs);
-        });
-    }, []);
+    // useEffect(() => {}, []);
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem(
@@ -54,18 +49,21 @@ const App = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-
         try {
             const user = await loginService.login({
                 username,
                 password,
             });
+
             window.localStorage.setItem(
                 'loggedFinanceAppUser',
                 JSON.stringify(user)
             );
 
             jobService.setToken(user.token);
+            jobService.getAll().then((initialJobs) => {
+                setJobs(initialJobs);
+            });
             setUser(user);
             setUsername('');
             setPassword('');
@@ -133,7 +131,7 @@ const App = () => {
                         addJob={addJob}
                     />
                 </EuiPanel>
-                <JobsGrid jobs={jobs} />
+                <JobsGrid jobs={jobs} setJobs={setJobs} />
             </div>
         );
     };

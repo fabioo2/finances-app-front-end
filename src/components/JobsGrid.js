@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Comparators } from '@elastic/eui/es/services/sort';
 import { EuiBasicTable, EuiHealth, EuiPanel } from '@elastic/eui';
+import jobService from '../services/jobs';
 
-const JobsGrid = ({ jobs }) => {
+const JobsGrid = ({ jobs, setJobs }) => {
     const [sortField, setSortField] = useState('client');
     const [sortDirection, setSortDirection] = useState('asc');
 
@@ -12,6 +13,24 @@ const JobsGrid = ({ jobs }) => {
         setSortField(sortField);
         setSortDirection(sortDirection);
     };
+
+    const deleteJob = (job) => {
+        if (window.confirm(`Delete Job - ${job.client}`)) {
+            jobService.remove(job.id);
+            setJobs(jobs.filter((j) => j.id !== job.id));
+        }
+    };
+
+    const actions = [
+        {
+            name: 'Delete',
+            description: 'delete this job',
+            icon: 'trash',
+            type: 'icon',
+            color: 'danger',
+            onClick: deleteJob,
+        },
+    ];
 
     const findJobs = (
         jobs,
@@ -67,11 +86,6 @@ const JobsGrid = ({ jobs }) => {
         return <EuiHealth color={color}>{label}</EuiHealth>;
     };
 
-    const formatter = new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-    });
-
     const columns = [
         {
             field: 'client',
@@ -113,6 +127,10 @@ const JobsGrid = ({ jobs }) => {
                     {items.filter((i) => !i.paid).length} unpaid invoices
                 </span>
             ),
+        },
+        {
+            name: 'Delete',
+            actions,
         },
     ];
 
