@@ -81,8 +81,8 @@ const JobsGrid = ({ jobs, setJobs }) => {
     ).pageOfItems;
 
     const renderStatus = (paid) => {
-        const color = paid ? 'danger' : 'success';
-        const label = paid ? 'Issues' : 'Closed';
+        const color = paid ? 'success' : 'danger';
+        const label = paid ? 'Closed' : 'Owing';
         return <EuiHealth color={color}>{label}</EuiHealth>;
     };
 
@@ -117,7 +117,7 @@ const JobsGrid = ({ jobs, setJobs }) => {
             ),
         },
         {
-            field: 'Status',
+            field: 'paid',
             name: 'Job Status',
             align: 'right',
             dataType: 'boolean',

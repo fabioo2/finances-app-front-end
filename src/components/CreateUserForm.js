@@ -21,7 +21,7 @@ const CreateUserForm = ({
     const [newPassword, setNewPassword] = useState('');
     const [confirmedPassword, setConfirmedPassword] = useState('');
 
-    const [dual, setDual] = useState(true);
+    const [dual] = useState(true);
 
     const handleCreateUser = async (event) => {
         event.preventDefault();

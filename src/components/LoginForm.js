@@ -3,13 +3,11 @@ import CreateUserForm from '../components/CreateUserForm';
 import Notification from '../components/Notification';
 
 import {
-    EuiPanel,
     EuiForm,
     EuiFieldText,
     EuiButton,
     EuiFormRow,
     EuiFieldPassword,
-    EuiText,
 } from '@elastic/eui';
 
 const LoginForm = ({
@@ -23,7 +21,7 @@ const LoginForm = ({
 }) => {
     const [visible, setVisible] = useState(false);
     const [buttonText, setButtonText] = useState('Create New Account');
-    const [dual, setDual] = useState(true);
+    const [dual] = useState(true);
 
     const toggleVisibility = () => {
         setVisible(!visible);
@@ -50,10 +48,6 @@ const LoginForm = ({
                 style={hideWhenVisible}
                 onSubmit={handleSubmit}
             >
-                <EuiText>
-                    <h2>Login</h2>
-                </EuiText>
-
                 <EuiFormRow label="username">
                     <EuiFieldText
                         name="username"

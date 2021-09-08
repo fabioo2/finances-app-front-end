@@ -6,13 +6,7 @@ import JobsGrid from './components/JobsGrid';
 import CreateJob from './components/CreateJob';
 
 import '@elastic/eui/dist/eui_theme_amsterdam_light.css';
-import {
-    EuiPageTemplate,
-    EuiCard,
-    EuiFlexItem,
-    EuiFlexGroup,
-    EuiPanel,
-} from '@elastic/eui';
+import { EuiPageTemplate, EuiCard, EuiPanel } from '@elastic/eui';
 
 import jobService from './services/jobs';
 import loginService from './services/login';
@@ -32,8 +26,6 @@ const App = () => {
         date: moment(),
     });
     const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
-
-    // useEffect(() => {}, []);
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem(
@@ -100,7 +92,7 @@ const App = () => {
 
     const loginForm = () => {
         return (
-            <EuiCard className="component-background">
+            <EuiCard title="Login" className="component-background">
                 <LoginForm
                     message={message}
                     username={username}

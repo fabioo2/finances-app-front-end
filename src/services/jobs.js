@@ -34,10 +34,12 @@ const remove = (id, newObject) => {
     return request.then((response) => response.data);
 };
 
-export default {
+const jobServiceObject = {
     getAll,
     create,
     update,
     remove,
     setToken,
 };
+
+export default jobServiceObject;

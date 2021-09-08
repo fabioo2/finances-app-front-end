@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
     EuiForm,
@@ -45,6 +45,8 @@ const CreateJob = ({
     };
 
     const handlePaidInputChange = (event) => {
+        console.log(event.target.checked);
+
         setNewJob((values) => ({
             ...values,
             paid: event.target.checked,

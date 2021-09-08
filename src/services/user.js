@@ -7,4 +7,8 @@ const create = async (newObject) => {
     return response.data;
 };
 
-export default { create };
+const createObject = {
+    create,
+};
+
+export default createObject;
