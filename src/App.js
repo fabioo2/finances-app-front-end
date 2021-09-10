@@ -36,6 +36,9 @@ const App = () => {
             const user = JSON.parse(loggedUserJSON);
             setUser(user);
             jobService.setToken(user.token);
+            jobService.getAll().then((initialJobs) => {
+                setJobs(initialJobs);
+            });
         }
     }, []);
 
