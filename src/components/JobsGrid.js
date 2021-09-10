@@ -104,6 +104,13 @@ const JobsGrid = ({ jobs, setJobs }) => {
             field: 'amount',
             name: 'Payment Due',
             dataType: 'number',
+            render: (amount) =>
+                amount.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                }),
             align: 'right',
             footer: ({ items }) => (
                 <span>
@@ -112,6 +119,8 @@ const JobsGrid = ({ jobs, setJobs }) => {
                         .toLocaleString('en-US', {
                             style: 'currency',
                             currency: 'USD',
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
                         })}{' '}
                 </span>
             ),
