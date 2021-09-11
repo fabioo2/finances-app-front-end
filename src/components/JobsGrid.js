@@ -4,7 +4,7 @@ import { EuiBasicTable, EuiHealth, EuiPanel } from '@elastic/eui';
 import jobService from '../services/jobs';
 
 const JobsGrid = ({ jobs, setJobs }) => {
-    const [sortField, setSortField] = useState('client');
+    const [sortField, setSortField] = useState('date');
     const [sortDirection, setSortDirection] = useState('asc');
 
     const onTableChange = ({ sort = {} }) => {
@@ -121,7 +121,7 @@ const JobsGrid = ({ jobs, setJobs }) => {
                             currency: 'USD',
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                        })}{' '}
+                        })}
                 </span>
             ),
         },
