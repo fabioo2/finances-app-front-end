@@ -123,7 +123,7 @@ const JobsGrid = ({ jobs, setJobs }) => {
                             currency: 'USD',
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
-                        })}{' '}
+                        })}
                 </span>
             ),
         },
