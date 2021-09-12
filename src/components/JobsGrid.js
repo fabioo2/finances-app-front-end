@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Comparators } from '@elastic/eui/es/services/sort';
 import { EuiBasicTable, EuiHealth, EuiPanel } from '@elastic/eui';
 import jobService from '../services/jobs';
+import moment from 'moment';
 
 const JobsGrid = ({ jobs, setJobs }) => {
-    const [sortField, setSortField] = useState('client');
-    const [sortDirection, setSortDirection] = useState('asc');
+    const [sortField, setSortField] = useState('date');
+    const [sortDirection, setSortDirection] = useState('desc');
 
     const onTableChange = ({ sort = {} }) => {
         const { field: sortField, direction: sortDirection } = sort;
@@ -98,6 +99,7 @@ const JobsGrid = ({ jobs, setJobs }) => {
             field: 'date',
             name: 'Date of Invoice',
             dataType: 'date',
+            render: (date) => moment(date).format('MMM Do YYYY'),
             sortable: true,
         },
         {

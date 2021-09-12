@@ -26,6 +26,8 @@ const App = () => {
         date: moment(),
     });
     const [isFlyoutVisible, setIsFlyoutVisible] = useState(false);
+    const [showClientErrors, setShowClientErrors] = useState(false);
+    const [showAmountErrors, setShowAmountErrors] = useState(false);
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem(
@@ -74,23 +76,33 @@ const App = () => {
         event.preventDefault();
 
         window.localStorage.removeItem('loggedFinanceAppUser');
+        setJobs([]);
         setUser(null);
     };
 
     const addJob = (event) => {
         event.preventDefault();
 
-        jobService.create(newJob).then((returnedJob) => {
-            setJobs(jobs.concat(returnedJob));
-            setNewJob({
-                client: '',
-                amount: '',
-                paid: true,
-                date: moment(),
+        if (newJob.client === '' && newJob.amount === '') {
+            setShowClientErrors(true);
+            setShowAmountErrors(true);
+        } else if (newJob.client === '') {
+            setShowClientErrors(true);
+        } else if (newJob.amount === '') {
+            setShowAmountErrors(true);
+        } else {
+            jobService.create(newJob).then((returnedJob) => {
+                setJobs(jobs.concat(returnedJob));
+                setNewJob({
+                    client: '',
+                    amount: '',
+                    paid: true,
+                    date: moment(),
+                });
             });
-        });
 
-        setIsFlyoutVisible(false);
+            setIsFlyoutVisible(false);
+        }
     };
 
     const loginForm = () => {
@@ -124,6 +136,10 @@ const App = () => {
                         newJob={newJob}
                         setNewJob={setNewJob}
                         addJob={addJob}
+                        showClientErrors={showClientErrors}
+                        showAmountErrors={showAmountErrors}
+                        setShowClientErrors={setShowClientErrors}
+                        setShowAmountErrors={setShowAmountErrors}
                     />
                 </EuiPanel>
                 <JobsGrid jobs={jobs} setJobs={setJobs} />
